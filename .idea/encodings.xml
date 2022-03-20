@@ -6,6 +6,7 @@
     <file url="file://$PROJECT_DIR$/Core/Src/zhangshuo_code/Motor.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Core/Src/zhangshuo_code/PID.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Core/Src/zhangshuo_code/PID.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Core/Src/zhangshuo_code/Wheel.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Core/Src/zhangshuo_code/config.h" charset="GBK" />
   </component>
 </project>

@@ -11,6 +11,7 @@
 #include "Wheel.h"
 #include "my_log.h"
 #include <stdio.h>
+#include "Car.h"
 
 //创建两个轮子对象
 Motor motor_left(&htim8,TIM_CHANNEL_1,GPIOA,GPIO_PIN_2,GPIOA,GPIO_PIN_3,1);
@@ -21,6 +22,8 @@ Encoder encoder_right(&htim3,TIM_CHANNEL_1|TIM_CHANNEL_2,1);
 //创建轮子对象
 Wheel wheel_left(motor_left,encoder_left);
 Wheel wheel_right(motor_right,encoder_right);
+//创建小车对象
+Car car(wheel_left,wheel_right);
 
 void Init() {
 //    //马达初始化
@@ -33,11 +36,15 @@ void Init() {
 //    motor_left.spin(3000);
 //    motor_right.spin(3000);
 //轮子初始化
-    wheel_left.init();
-    wheel_right.init();
+//    wheel_left.init();
+//    wheel_right.init();
 //   更新速度
-    wheel_left.updateTargetVel(0.1);
-    wheel_right.updateTargetVel(0.1);
+//    wheel_left.updateTargetVel(0.1);
+//    wheel_right.updateTargetVel(0.1);
+/************************初始化小车***********************************/
+    car.init();
+    car.updateSpeed(0.1,0.2);
+
 
 
 
@@ -51,7 +58,9 @@ void Tick() {
 //
 //    log("encoder:%hd,%hd",left_counter,right_counter);
 //不断更新速度
-    wheel_left.spin();
-    wheel_right.spin();
-
+//    wheel_left.spin();
+//    wheel_right.spin();
+    /*********************** 小车不断执行 ***********************/
+    car.spin();
+    mylog("vel:%d  anguler:%d",(int)(car.getVel()*100),(int)(car.getAnguler()*100));
 }

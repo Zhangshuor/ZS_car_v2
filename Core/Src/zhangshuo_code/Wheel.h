@@ -25,6 +25,8 @@ private:
     float startTime = 0;
     //PID调节对象
     PID pid;
+    //当前速度
+    float curSpeed;
 
 public:
     Wheel(Motor motor,Encoder encoder);
@@ -36,6 +38,8 @@ public:
     void updateTargetVel(float speed);
     //轮子转动,让速度稳定在设定目标速度左右
     void spin();
+    //获取当前速度
+    float getVel();
 };
 
 

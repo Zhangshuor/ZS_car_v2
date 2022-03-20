@@ -12,50 +12,54 @@ Wheel::~Wheel() {
 
 }
 /********************************************************************************
-* @author: å¼ ç¡•
+* @author: ÕÅË¶
 * @params: float targetSpeed
 * @return:
-* @description: ç”µæœºè½¬åŠ¨è¾¾åˆ°ç›®æ ‡è½¬é€Ÿ
+* @description: µç»ú×ª¶¯´ïµ½Ä¿±ê×ªËÙ
 ********************************************************************************/
 
 void Wheel::updateTargetVel(float targetSpeed) {
     if(this->targetSpeed!=targetSpeed){
-        //æ›´æ–°ç›®æ ‡é€Ÿåº¦
+        //¸üĞÂÄ¿±êËÙ¶È
         this->targetSpeed = targetSpeed;
-        //é‡ç½®PID
+        //ÖØÖÃPID
         pid.reset();
     }
 
 }
 
 void Wheel::init() {
-    //é©¬è¾¾çš„åˆå§‹åŒ–
+    //Âí´ïµÄ³õÊ¼»¯
     this->motor.init();
-    //ç¼–ç å™¨åˆå§‹åŒ–
+    //±àÂëÆ÷³õÊ¼»¯
     this->encoder.init();
 }
 /********************************************************************************
-* @author: å¼ ç¡•
+* @author: ÕÅË¶
 * @params:
 * @return:
-* @description:è½®å­è½¬åŠ¨,è®©é€Ÿåº¦ç¨³å®šåœ¨è®¾å®šç›®æ ‡é€Ÿåº¦å·¦å³
+* @description:ÂÖ×Ó×ª¶¯,ÈÃËÙ¶ÈÎÈ¶¨ÔÚÉè¶¨Ä¿±êËÙ¶È×óÓÒ
 ********************************************************************************/
 
 void Wheel::spin() {
-    //è¦çŸ¥é“å½“å‰çš„é€Ÿåº¦
+    //ÒªÖªµÀµ±Ç°µÄËÙ¶È
     if(HAL_GetTick()-startTime<((float)1000)/MOVE_CTRL_RATE){
         return;
     }
-    //æ›´æ–°æ—¶é—´
+    //¸üĞÂÊ±¼ä
     startTime = HAL_GetTick();
-    //è¯»å–æ•°æ®
+    //¶ÁÈ¡Êı¾İ
     short nums = encoder.read();
-    //é€Ÿåº¦
-    float curSpeed =((float) nums) / WHEEL_TPR * WHEEL_DIAMETER * M_PI * MOVE_CTRL_RATE;
+    //ËÙ¶È
+    curSpeed =((float) nums) / WHEEL_TPR * WHEEL_DIAMETER * M_PI * MOVE_CTRL_RATE;
     mylog("curSpeed:%d",(int)(curSpeed*100));
-    //ç›®å‰å·²çŸ¥çš„ç›®æ ‡é€Ÿåº¦
-    //é€šè¿‡PIDï¼Œæ ¹æ®å½“å‰é€Ÿåº¦å’Œç›®æ ‡é€Ÿåº¦æ¥è·å–ç›¸åº”çš„PWMå€¼
+    //Ä¿Ç°ÒÑÖªµÄÄ¿±êËÙ¶È
+    //Í¨¹ıPID£¬¸ù¾İµ±Ç°ËÙ¶ÈºÍÄ¿±êËÙ¶ÈÀ´»ñÈ¡ÏàÓ¦µÄPWMÖµ
     float pwm = pid.compute(this->targetSpeed,curSpeed);
     this->motor.spin((int)pwm);
 
+}
+
+float Wheel::getVel() {
+    return this->curSpeed;
 }
